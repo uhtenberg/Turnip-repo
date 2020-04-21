@@ -14,6 +14,10 @@ Button squares[];
 Button newGameButton;
 Label score;
 int emptySquaresLeft=9;
+int W=0;
+int L=0;
+Label win;
+Label lost;
 
 /**
  * метод init - это конструктор апплета
@@ -37,7 +41,12 @@ int emptySquaresLeft=9;
 		
 		newGameButton.addActionListener(this);
 		
+		win = new Label("W :" + W);
+		lost = new Label("L :" + L);
 		Panel topPanel = new Panel();
+		topPanel.setLayout(new GridLayout(2,2));
+		topPanel.add(win);
+		topPanel.add(lost);
 		topPanel.add(newGameButton);
 		
 			this.add(topPanel,"North");
@@ -133,7 +142,7 @@ int emptySquaresLeft=9;
 			score.setText("It's a tie!");
 			
 		}
-	} // конец метода actionPerformed 
+	} // конец метода actionPerformed
 			
 				/** Этот метод вызывается после каждого хода,
 				 * чтобы узнать, есть ли  победитель.
@@ -254,7 +263,7 @@ int emptySquaresLeft=9;
 		
 	}
 	
-	/**  Этот метод проверяет каждую колонку, ряд и диагональ, 
+	/**  Этот метод проверяет каждую колонку, ряд и диагональ,
 	 * чтобы узнать, есть ли в ней две клетки с одинаковыми надписями и пустой клеткой
 	 * в качестве параметров игроку передается Х, компьютеру О
 	 * возвращает метод количество свободных клеток или -1, если не найдено
@@ -425,5 +434,8 @@ int emptySquaresLeft=9;
 			}
 		}
 		
+		public static void main (String[] args) {
+			TicTacToe ttt = new TicTacToe();
+		}
+
 } // конец класса
-				
