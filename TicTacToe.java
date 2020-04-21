@@ -3,7 +3,7 @@ import java.awt.event.*;
 import java.applet.Applet;
 
 /** 
- * ���� ��������-������ �� ����� 3�3
+ * Игра крестики-нолики на доске 3х3
  * @author Uhtenberg
  *
  */
@@ -20,22 +20,22 @@ Label win;
 Label lost;
 
 /**
- * ����� init - ��� ����������� �������
+ * метод init - это конструктор апплета
  */
 
 	public void init() {
-		// ������������� �������� ������������ �������, ��� ����� � ����
+		// устанавливаем менеджер расположения апплета, его шрифт и цвет
 		
 		this.setLayout(new BorderLayout());
 		this.setBackground(Color.CYAN);
 		
-		// �������� ����� ������� ���, ����� �� ��� ������
-		// � ���� ������ 20
+		// Изменяем шрифт апплета так, чтобы он был жирным
+		// и имел размер 20
 		
 		Font appletFont=new Font("Monospaced",Font.BOLD, 20);
 		this.setFont(appletFont);
 		
-		// ������� ������ New Game � ������������ � ��� ��������� ��������
+		// Создаем кнопку New Game и регистрируем в ней слушатель действия
 		
 		newGameButton = new Button("New Game");
 		
@@ -58,13 +58,13 @@ Label lost;
 			score=new Label("Yout turn!");
 			this.add(score,"South");
 			
-			// ������� ������, ����� ������� � ��� ������ �� 9 ������
+			// создаем массив, чтобы хранить в нем ссылки на 9 кнопок
 			
 			squares=new Button[9];
 			
-			// ������� ������, ��������� ������ �� ��� � �������
-			// ������������ � ��� ���������, ������ � ��������� ����
-			// � ��������� �� �� ������
+			// Создаем кнопки, сохраняем ссылки на них в массиве
+			// регистрируем в них слушатель, красим в оранжевый цвет
+			// и добавляем их на панель
 			
 			for (int i=0; i<squares.length; i++) {
 				squares[i]=new Button();
@@ -76,13 +76,13 @@ Label lost;
 			
 	}
 	
-	// ���� ����� ����� ������������ ��� �������
+	// Этот метод будет обрабатывать все события
 	
 	public void actionPerformed(ActionEvent e) {
 		
 		Button theButton = (Button) e.getSource();
 		
-		// ��� ������ New Game?
+		// Это кнопка New Game?
 		
 		if (theButton == newGameButton) {
 			
@@ -97,13 +97,13 @@ Label lost;
 		score.setText("Your turn!");
 		newGameButton.setEnabled(false);
 		
-		return; // ������� �� ������
+		return; // выходим из метода
 		
 		}
 		
 		String winner = "";
 		
-		// ��� ���� �� ������?
+		// Это одна из клеток?
 		
 		for (int i=0; i<squares.length; i++) {
 			
@@ -130,7 +130,7 @@ Label lost;
 			}
 		}
 		
-		// ����� ����� for
+		// конец цикла for
 		
 		if (winner.equals("X")) {
 			score.setText("You win!");
@@ -142,13 +142,13 @@ Label lost;
 			score.setText("It's a tie!");
 			
 		}
-	} // ����� ������ actionPerformed 
+	} // конец метода actionPerformed
 			
-				/** ���� ����� ���������� ����� ������� ����,
-				 * ����� ������, ���� ��  ����������.
-				 * �� ��������� ������ ���, ������� � ���������,
-				 * ����� ����� ��� ������ � ����������� ��������� (�� ������)
-				 * "�", "�", "�" (�����), "" - ��� ��� ����������
+				/** Этот метод вызывается после каждого хода,
+				 * чтобы узнать, есть ли  победитель.
+				 * Он проверяет каждый ряд, колонку и диагональ,
+				 * чтобы найти три клетки с одинаковыми надписями (не пустые)
+				 * "Х", "О", "Т" (ничья), "" - еще нет победителя
 				 */
 	
 	String lookForWinner() {
@@ -156,10 +156,10 @@ Label lost;
 		emptySquaresLeft--;
 		
 		if (emptySquaresLeft==0) {
-			return "T"; // ��� �����. � �� ����������� ����� tie (�����)
+			return "T"; // Это ничья. Т от английского слова tie (ничья)
 		}
 		
-		// ��������� ��� 1 - �������� ������� 0,1,2
+		// проверяем ряд 1 - элементы массива 0,1,2
 		if (!squares[0].getLabel().equals("") && 
 				squares[1].getLabel().equals(squares[0].getLabel()) &&
 				squares[2].getLabel().equals(squares[0].getLabel())) {
@@ -167,49 +167,49 @@ Label lost;
 			theWinner = squares[0].getLabel();
 			highlightWinner(0,1,2);
 		
-		// ��������� ��� 2 - �������� ������� 3,4,5
+		// проверяем ряд 2 - элементы массива 3,4,5
 		} else if (!squares[3].getLabel().equals("") &&
 				squares[4].getLabel().equals(squares[3].getLabel()) &&
 				squares[5].getLabel().equals(squares[3].getLabel())) {
 			theWinner = squares[3].getLabel();
 			highlightWinner(3,4,5);
 			
-		// ��������� ��� 3 - �������� ������� 6,7,8
+		// проверяем ряд 3 - элементы массива 6,7,8
 		} else if (!squares[6].getLabel().equals("") &&
 				squares[7].getLabel().equals(squares[6].getLabel()) &&
 				squares[8].getLabel().equals(squares[6].getLabel())) {
 			theWinner = squares[6].getLabel();
 			highlightWinner(6,7,8);
 			
-		// ��������� ������� 1 - �������� ������� 0,3,6
+		// проверяем колонку 1 - элементы массива 0,3,6
 		} else if (!squares[0].getLabel().equals("") &&
 				squares[3].getLabel().equals(squares[0].getLabel()) &&
 				squares[6].getLabel().equals(squares[0].getLabel())) {
 			theWinner = squares[0].getLabel();
 			highlightWinner(0,3,6);
 			
-		// ��������� ������� 2 - �������� ������� 1,4,7
+		// проверяем колонку 2 - элементы массива 1,4,7
 		} else if (!squares[1].getLabel().equals("") &&
 				squares[4].getLabel().equals(squares[1].getLabel()) &&
 				squares[7].getLabel().equals(squares[1].getLabel())) {
 			theWinner = squares[1].getLabel();
 			highlightWinner(1,4,7);
 			
-		// ��������� ������� 3 - �������� ������� 2,5,8
+		// проверяем колонку 3 - элементы массива 2,5,8
 		} else if (!squares[2].getLabel().equals("") &&
 				squares[5].getLabel().equals(squares[2].getLabel()) &&
 				squares[8].getLabel().equals(squares[2].getLabel())) {
 			theWinner = squares[2].getLabel();
 			highlightWinner(2,5,8);
 			
-		// ��������� ��������� 1 - �������� ������� 0,4,8
+		// проверяем диагональ 1 - элементы массива 0,4,8
 		} else if (!squares[0].getLabel().equals("") &&
 				squares[4].getLabel().equals(squares[0].getLabel()) &&
 				squares[8].getLabel().equals(squares[0].getLabel())) {
 			theWinner = squares[0].getLabel();
 			highlightWinner(0,4,8);
 			
-		// ��������� ��������� 2 - �������� ������� 2,4,6
+		// проверяем диагональ 2 - элементы массива 2,4,6
 		} else if (!squares[2].getLabel().equals("") &&
 				squares[4].getLabel().equals(squares[2].getLabel()) &&
 				squares[6].getLabel().equals(squares[2].getLabel())) {
@@ -222,20 +222,20 @@ Label lost;
 				
 		}
 		
-		/** ���� ����� ����� ������ ������ ���
-		 * ��� ���������. ���� ������ ���� ���,
-		 * ��������� �������� ��������� ������.
+		/** этот метод будет искать лучший ход
+		 * для комьютера. если такого хода нет,
+		 * компьютер выбирает случайную клетку.
 		 */
 	
 	void computerMove() {
 		
 		int selectedSquare;
 		
-		// ������� ��������� ���������� ����� ������ ������ ����� � ����� � ����� ��������
+		// Сначала компьютер попытается найти пустую клетку рядом с двумя О чтобы выиграть
 		
 		selectedSquare= findEmptySquare("O");
 		
-		// ���� �� �� ������ ����� ����� ������, �� ���������� ���� �� �������� ������, �������� � ����� � ����� �
+		// Если он не сможет найти такую клетку, он попытается хотя бы помешать игроку, поставив О рядом с двумя Х
 		
 		if (selectedSquare == -1) {
 			
@@ -243,7 +243,7 @@ Label lost;
 			
 		}
 		
-		// ���� selectedSquare ��-�������� ����� -1, �� ��������� ���������� ������ ����������� ������
+		// Если selectedSquare по-прежнему равен -1, то компьютер попытается занять центральную клетку
 		
 		if ( (selectedSquare == -1) && squares[4].getLabel().contentEquals("")) {
 			
@@ -251,7 +251,7 @@ Label lost;
 	
 		}
 		
-		// ���� �� ������� � ����������� ������� - �������� ���������
+		// если не повезло с центральной клеткой - занимает случайную
 		
 		if (selectedSquare == -1) {
 			
@@ -263,11 +263,11 @@ Label lost;
 		
 	}
 	
-	/**  ���� ����� ��������� ������ �������, ��� � ���������, 
-	 * ����� ������, ���� �� � ��� ��� ������ � ����������� ��������� � ������ �������
-	 * � �������� ���������� ������ ���������� �, ���������� �
-	 * ���������� ����� ���������� ��������� ������ ��� -1, ���� �� �������
-	 * ��� ������ � ����������� ���������
+	/**  Этот метод проверяет каждую колонку, ряд и диагональ,
+	 * чтобы узнать, есть ли в ней две клетки с одинаковыми надписями и пустой клеткой
+	 * в качестве параметров игроку передается Х, компьютеру О
+	 * возвращает метод количество свободных клеток или -1, если не найдено
+	 * две клетки с одинаковыми надписями
 	 */
 	
 	int findEmptySquare(String player) {
@@ -287,7 +287,7 @@ Label lost;
 			
 		int twoWeight = player.equals("O") ? -2 : 2;
 			
-			// ��������, ���� �� � ���� 1 ��� ���������� ������ � ���� ������
+			// Проверим, есть ли в ряду 1 две одинаковых клетки и одна пустая
 			
 		if (weight[0] + weight[1] + weight[2] == twoWeight) {
 				if (weight[0]== 0) {
@@ -299,7 +299,7 @@ Label lost;
 				}
 			}
 				
-			// ��������, ���� �� � ���� 2 ��� ���������� ������ � ���� ������
+			// Проверим, есть ли в ряду 2 две одинаковых клетки и одна пустая
 				
 		if (weight[3] + weight[4] + weight[5]==twoWeight) {
 				if (weight[3]==0) {
@@ -311,7 +311,7 @@ Label lost;
 				}
 			}
 				
-			// ��������, ���� �� � ���� 3 ��� ���������� ������ � ���� ������
+			// Проверим, есть ли в ряду 3 две одинаковых клетки и одна пустая
 				
 		if (weight[6] + weight[7] + weight[8]==twoWeight) {
 				if (weight[6]==0) {
@@ -323,7 +323,7 @@ Label lost;
 				}
 			}
 				
-			// ��������, ���� �� � ������� 1 ��� ���������� ������ � ���� ������
+			// Проверим, есть ли в колонке 1 две одинаковых клетки и одна пустая
 				
 		if (weight[0] + weight[3] + weight[6]==twoWeight) {
 				if (weight[0]==0) {
@@ -335,7 +335,7 @@ Label lost;
 				}
 			}
 				
-			// ��������, ���� �� � ������� 2 ��� ���������� ������ � ���� ������
+			// Проверим, есть ли в колонке 2 две одинаковых клетки и одна пустая
 				
 		if (weight[1] + weight[4] + weight[7]==twoWeight) {
 				if (weight[1]==0) {
@@ -347,7 +347,7 @@ Label lost;
 				}
 			}
 				
-			// ��������� ������� ����� 3 �� ��� ���������� ������ � ���� ������
+			// Проверяем колонку номер 3 на две одинаковых клетки и одну пустую
 				
 		if (weight[2] + weight[5] + weight[8]==twoWeight) {
 				if (weight[2]==0) {
@@ -359,7 +359,7 @@ Label lost;
 				}
 			}
 				
-			// ��������� ��� ��������� �� ��� ���������� � ���� ������
+			// Проверяем обе диагонали на две одинаковых и одну пустую
 				
 		if (weight[0] + weight[4] + weight[8]==twoWeight) {
 				if (weight[0]==0) {
@@ -381,15 +381,15 @@ Label lost;
 				}
 			}
 			
-			// ���� �� ������� ���� ���������� �������� ������
+			// Если не найдено двух одинаковых соседних клеток
 			
 		return -1;
 				
-		} // ����� ������ findEmptySquare
+		} // Конец метода findEmptySquare
 	
-		/** ���� ����� �����
-		 * �������� �����
-		 * ������ ������
+		/** Этот метод будет
+		 * выбирать любую
+		 * пустую клетку
 		 */
 		
 		int getRandomSquare() {
@@ -404,16 +404,16 @@ Label lost;
 				
 				if (squares[SelectedSquare].getLabel().equals("")) {
 					
-					gotEmptySquare = true; // ����� ��������� ����
+					gotEmptySquare = true; // чтобы закончить цикл
 				}
 			} while (!gotEmptySquare);
 			
 			return SelectedSquare;
 			
-		} // ����� ������ getRandomSquare
+		} // конец метода getRandomSquare
 		
-		/** ���� ����� �������� ���������� �����
-		 * ����������� ������ ������, ������ � ������ ������ ��� ���������
+		/** Этот метод выделяет выигравшую линию
+		 * параметрами служат первая, вторая и третья клетки для выделения
 		 */
 		
 		void highlightWinner(int win1, int win2, int win3) {
@@ -423,7 +423,7 @@ Label lost;
 			
 		}
 		
-		// ������ ������������ ������ � ��������� ������ "New Game"
+		// Делаем недоступными клетки и доступной кнопку "New Game"
 		
 		void endTheGame() {
 			
@@ -437,6 +437,5 @@ Label lost;
 		public static void main (String[] args) {
 			TicTacToe ttt = new TicTacToe();
 		}
-		
-} // ����� ������
-				
+
+} // конец класса
